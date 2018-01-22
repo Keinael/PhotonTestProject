@@ -28,10 +28,9 @@ namespace Assets.Scripts
 
         #region Private Variables
 
-        /// <summary>
-        /// This client's version number.
-        /// </summary>
         private string _gameVersion = "1";
+
+        bool isConnecting;
 
         #endregion
         
@@ -56,6 +55,7 @@ namespace Assets.Scripts
 
         public void Connect()
         {
+            isConnecting = true;
             progressLabel.SetActive(true);
             controlPanel.SetActive(false);
             if (PhotonNetwork.connected)
@@ -76,7 +76,10 @@ namespace Assets.Scripts
         {
             Debug.Log("DemoAnimator/Launcher: OnConnectedToMaster() was called by PUN");
             // #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnPhotonRandomJoinFailed()  
-            PhotonNetwork.JoinRandomRoom();
+            if (isConnecting)
+            {
+                PhotonNetwork.JoinRandomRoom();
+            }
         }
  
         public override void OnDisconnectedFromPhoton()
@@ -96,6 +99,12 @@ namespace Assets.Scripts
         public override void OnJoinedRoom()
         {
             Debug.Log("DemoAnimator/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
+            if (PhotonNetwork.room.PlayerCount == 1)
+            {
+                Debug.Log("We load the 'Room for 1' "); 
+
+                PhotonNetwork.LoadLevel("Room for 1");
+            }
         }
 
         #endregion

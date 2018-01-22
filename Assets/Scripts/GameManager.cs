@@ -8,6 +8,12 @@ namespace Assets.Scripts
     public class GameManager : Photon.PunBehaviour 
     {
 
+        #region Public Properties
+
+        public static GameManager Instance;
+
+        #endregion
+
         #region Photon Messages
 
         public override void OnPhotonPlayerConnected(PhotonPlayer other)
@@ -61,6 +67,12 @@ namespace Assets.Scripts
         }
 
         #endregion
+
+        void Start()
+        {
+            Instance = this;
+        }
+
     }
 }
 

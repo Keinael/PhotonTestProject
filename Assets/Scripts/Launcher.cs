@@ -18,6 +18,12 @@ namespace Assets.Scripts
         [Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created.")]
         public byte MaxPlayersPerRoom = 4;
 
+        [Tooltip("The UI panel to let the user enter name, connect and play")]
+        public GameObject controlPanel;
+
+        [Tooltip("The UI label to inform the user that the connection is in progress")]
+        public GameObject progressLabel;
+
         #endregion
 
         #region Private Variables
@@ -40,7 +46,8 @@ namespace Assets.Scripts
 
         void Start()
         {
-            
+            progressLabel.SetActive(false);
+            controlPanel.SetActive(true);
         }
         
         #endregion
@@ -49,6 +56,8 @@ namespace Assets.Scripts
 
         public void Connect()
         {
+            progressLabel.SetActive(true);
+            controlPanel.SetActive(false);
             if (PhotonNetwork.connected)
             {
                 PhotonNetwork.JoinRandomRoom();
@@ -72,6 +81,8 @@ namespace Assets.Scripts
  
         public override void OnDisconnectedFromPhoton()
         {
+            progressLabel.SetActive(false);
+            controlPanel.SetActive(true);
             Debug.LogWarning("DemoAnimator/Launcher: OnDisconnectedFromPhoton() was called by PUN");        
         }
  

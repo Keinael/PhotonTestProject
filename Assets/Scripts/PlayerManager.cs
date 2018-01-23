@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿#if UNITY_5 && (!UNITY_5_0 && !UNITY_5_1 && !UNITY_5_2 && ! UNITY_5_3) || UNITY_2017
+#define UNITY_MIN_5_4
+#endif
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +18,10 @@ namespace Assets.Scripts
 
         [Tooltip("The current Health of our player")]
         public float Health = 1f;
+
+        [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
+        public static GameObject LocalPlayerInstance;
+
         #endregion
  
         #region Private Variables
@@ -30,6 +38,14 @@ namespace Assets.Scripts
         /// </summary>
         void Awake()
         {
+
+            if ( photonView.isMine)
+            {
+                PlayerManager.LocalPlayerInstance = this.gameObject;
+            }
+
+            DontDestroyOnLoad(this.gameObject);
+
             if (Beams == null)
             {
                 Debug.LogError("<Color=Red><a>Missing</a></Color> Beams Reference.", this);
@@ -56,11 +72,16 @@ namespace Assets.Scripts
             {
                 Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
             }
+
+#if UNITY_MIN_5_4
+
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += (scene, loadingMode) =>
+            {
+                this.CalledOnLevelWasLoaded(scene.buildIndex);
+            };
+#endif
         }
 
-        /// <summary>
-        /// MonoBehaviour method called on GameObject by Unity on every frame.
-        /// </summary>
         void Update()
         {
             if (photonView.isMine)
@@ -120,6 +141,23 @@ namespace Assets.Scripts
  
             // we slowly affect health when beam is constantly hitting us, so player has to move to prevent death.
             Health -= 0.1f*Time.deltaTime; 
+        }
+
+#if !UNITY_MIN_5_4
+
+        void OnLevelWasLoaded(int level)
+        {
+            this.CalledOnLevelWasLoaded(level);
+        }
+#endif
+ 
+        void CalledOnLevelWasLoaded(int level)
+        {
+            // check if we are outside the Arena and if it's the case, spawn around the center of the arena in a safe zone
+            if (!Physics.Raycast(transform.position, -Vector3.up, 5f))
+            {
+                transform.position = new Vector3(0f, 5f, 0f);
+            }
         }
 
         #endregion

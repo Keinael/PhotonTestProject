@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class PlayerAnimatorManager : MonoBehaviour
+    public class PlayerAnimatorManager : Photon.MonoBehaviour
     {
         #region Public Properties
 
@@ -31,6 +31,11 @@ namespace Assets.Scripts
 	
         void Update ()
         {
+
+            if (photonView.isMine == false && PhotonNetwork.connected == true)
+            {
+                return;;
+            }
 
             if (!_animator)
             {

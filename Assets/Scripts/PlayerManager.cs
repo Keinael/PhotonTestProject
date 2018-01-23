@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class PlayerManager : Photon.PunBehaviour 
+    public class PlayerManager : Photon.PunBehaviour, IPunObservable
     {
 
         #region Public Variables
@@ -40,13 +40,34 @@ namespace Assets.Scripts
             }
  
         }
- 
+
+        void Start()
+        {
+            CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
+
+            if (_cameraWork != null)
+            {
+                if (photonView.isMine)
+                {
+                    _cameraWork.OnStartFollowing();
+                }
+            }
+            else
+            {
+                Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
+            }
+        }
+
         /// <summary>
         /// MonoBehaviour method called on GameObject by Unity on every frame.
         /// </summary>
         void Update()
         {
-            ProcessInputs ();
+            if (photonView.isMine)
+            {
+                ProcessInputs ();
+            }
+            
  
             // trigger Beams active state 
             if (Beams != null && IsFiring != Beams.GetActive()) 
@@ -127,7 +148,26 @@ namespace Assets.Scripts
                 }
             }
         }
+
+        void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.isWriting)
+            {
+                // We own this player: send the others our data
+                stream.SendNext(IsFiring);
+                stream.SendNext(Health);
+            }
+            else
+            {
+                // Network player, receive data
+                this.IsFiring = (bool)stream.ReceiveNext();
+                this.Health = (float)stream.ReceiveNext();
+            }
+        }
         #endregion
+
+
+
     }
 
 }

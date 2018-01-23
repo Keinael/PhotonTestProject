@@ -22,6 +22,9 @@ namespace Assets.Scripts
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         public static GameObject LocalPlayerInstance;
 
+        [Tooltip("The Player's UI GameObject Prefab")]
+        public GameObject PlayerUiPrefab;
+
         #endregion
  
         #region Private Variables
@@ -59,6 +62,15 @@ namespace Assets.Scripts
 
         void Start()
         {
+
+            if (PlayerUiPrefab!=null)
+            {
+                GameObject _uiGo =  Instantiate(PlayerUiPrefab) as GameObject;
+                _uiGo.SendMessage ("SetTarget", this, SendMessageOptions.RequireReceiver);
+            } else {
+                Debug.LogWarning("<Color=Red><a>Missing</a></Color> PlayerUiPrefab reference on player Prefab.",this);
+            }
+
             CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
 
             if (_cameraWork != null)
@@ -158,6 +170,11 @@ namespace Assets.Scripts
             {
                 transform.position = new Vector3(0f, 5f, 0f);
             }
+
+            GameObject _uiGo = Instantiate(this.PlayerUiPrefab) as GameObject;
+            _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+
+
         }
 
         #endregion

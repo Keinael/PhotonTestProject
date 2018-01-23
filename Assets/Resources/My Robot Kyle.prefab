@@ -479,6 +479,7 @@ GameObject:
   - component: {fileID: 114715679791361290}
   - component: {fileID: 114311680150533994}
   - component: {fileID: 114703485911973716}
+  - component: {fileID: 143380092963340332}
   m_Layer: 0
   m_Name: My Robot Kyle
   m_TagString: Untagged
@@ -1865,6 +1866,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Beams: {fileID: 1546967977842568}
   Health: 1
+  PlayerUiPrefab: {fileID: 1290583584558832, guid: d46fb3f7d59337843af5d21b822cdb2d,
+    type: 2}
 --- !u!137 &137259497100440562
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -1959,3 +1962,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.27024603, y: -0.041899905, z: -0.000000059604645}
     m_Extent: {x: 0.95254505, y: 0.23127724, z: 0.6514181}
   m_DirtyAABB: 0
+--- !u!143 &143380092963340332
+CharacterController:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1544723563380092}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}

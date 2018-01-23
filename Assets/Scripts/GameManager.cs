@@ -83,13 +83,13 @@ namespace Assets.Scripts
             {
                 if (PlayerManager.LocalPlayerInstance==null)
                 {
-                    Debug.Log("We are Instantiating LocalPlayer from "+Application.loadedLevelName);
+                    Debug.Log("We are Instantiating LocalPlayer from "+SceneManager.GetActiveScene().name);
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                     PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f,5f,0f), Quaternion.identity, 0);
                 }
                 else
                 {
-                    Debug.Log("Ignoring scene load for "+Application.loadedLevelName);
+                    Debug.Log("Ignoring scene load for "+ SceneManager.GetActiveScene().name);
                 }
             }
         }

@@ -6,24 +6,14 @@ namespace Assets.Scripts
 {
     public class PlayerAnimatorManager : Photon.MonoBehaviour
     {
-        #region Public Properties
-
         public float DirectionDampTime = .25f;
 
-        #endregion
-
-        #region Private Properties
-
-        private Animator _animator;
-
-        #endregion
-
-        #region Monobehaviour Messages
+        private Animator animator;
 
         void Start ()
         {
-            _animator = GetComponent<Animator>();
-            if (!_animator)
+            animator = GetComponent<Animator>();
+            if (!animator)
             {
                 Debug.LogError("PlayerAnimatorManager is Missing Animator Component", this);
             }
@@ -31,24 +21,23 @@ namespace Assets.Scripts
 	
         void Update ()
         {
-
             if (photonView.isMine == false && PhotonNetwork.connected == true)
             {
                 return;;
             }
 
-            if (!_animator)
+            if (!animator)
             {
                 return;
             }
 
-            AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
             if (stateInfo.IsName("Base Layer.Run"))
             {
                 if (Input.GetButtonDown("Jump"))
                 {
-                    _animator.SetTrigger("Jump");
+                    animator.SetTrigger("Jump");
                 }
             }
 
@@ -60,11 +49,10 @@ namespace Assets.Scripts
                 v = 0;
             }
 
-            _animator.SetFloat("Speed", h * h + v * v);
+            animator.SetFloat("Speed", h * h + v * v);
 
-            _animator.SetFloat("Direction", h, DirectionDampTime, Time.deltaTime);
+            animator.SetFloat("Direction", h, DirectionDampTime, Time.deltaTime);
         }
-        #endregion
     }
 }
 

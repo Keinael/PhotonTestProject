@@ -63,8 +63,6 @@ namespace Assets.Scripts
             {
                 OnStartFollowing();
             }
- 
- 
         }
  
  

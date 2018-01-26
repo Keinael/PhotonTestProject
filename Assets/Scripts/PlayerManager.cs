@@ -10,38 +10,19 @@ namespace Assets.Scripts
 {
     public class PlayerManager : Photon.PunBehaviour, IPunObservable
     {
-
-        #region Public Variables
- 
         [Tooltip("The Beams GameObject to control")]
         public GameObject Beams;
-
         [Tooltip("The current Health of our player")]
         public float Health = 1f;
-
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         public static GameObject LocalPlayerInstance;
-
         [Tooltip("The Player's UI GameObject Prefab")]
         public GameObject PlayerUiPrefab;
 
-        #endregion
- 
-        #region Private Variables
- 
-        //True, when the user is firing
         bool IsFiring;
- 
-        #endregion
- 
-        #region MonoBehaviour CallBacks
- 
-        /// <summary>
-        /// MonoBehaviour method called on GameObject by Unity during early initialization phase.
-        /// </summary>
+
         void Awake()
         {
-
             if ( photonView.isMine)
             {
                 PlayerManager.LocalPlayerInstance = this.gameObject;
@@ -62,12 +43,12 @@ namespace Assets.Scripts
 
         void Start()
         {
-
             if (PlayerUiPrefab!=null)
             {
                 GameObject _uiGo =  Instantiate(PlayerUiPrefab) as GameObject;
                 _uiGo.SendMessage ("SetTarget", this, SendMessageOptions.RequireReceiver);
-            } else {
+            } else 
+            {
                 Debug.LogWarning("<Color=Red><a>Missing</a></Color> PlayerUiPrefab reference on player Prefab.",this);
             }
 
@@ -94,25 +75,24 @@ namespace Assets.Scripts
 #endif
         }
 
+
+
+
         void Update()
         {
             if (photonView.isMine)
             {
                 ProcessInputs ();
             }
-            
- 
+            if (Health <= 0f)
+            {
+                GameManager.Instance.LeaveRoom();
+            }
             // trigger Beams active state 
             if (Beams != null && IsFiring != Beams.GetActive()) 
             {
                 Beams.SetActive(IsFiring);
             }
-
-            if (Health <= 0f)
-            {
-                GameManager.Instance.LeaveRoom();
-            }
-
         }
  
         void OnTriggerEnter(Collider other) 
@@ -156,7 +136,8 @@ namespace Assets.Scripts
         }
 
 #if !UNITY_MIN_5_4
-
+/// <summary>See CalledOnLevelWasLoaded. Outdated in Unity 5.4.
+///<summary>
         void OnLevelWasLoaded(int level)
         {
             this.CalledOnLevelWasLoaded(level);
@@ -165,22 +146,16 @@ namespace Assets.Scripts
  
         void CalledOnLevelWasLoaded(int level)
         {
+            GameObject _uiGo = Instantiate(this.PlayerUiPrefab) as GameObject;
+            _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+
             // check if we are outside the Arena and if it's the case, spawn around the center of the arena in a safe zone
             if (!Physics.Raycast(transform.position, -Vector3.up, 5f))
             {
                 transform.position = new Vector3(0f, 5f, 0f);
             }
-
-            GameObject _uiGo = Instantiate(this.PlayerUiPrefab) as GameObject;
-            _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
-
-
         }
 
-        #endregion
- 
-        #region Custom
- 
         /// <summary>
         /// Processes the inputs. Maintain a flag representing when the user is pressing Fire.
         /// </summary>
@@ -219,10 +194,6 @@ namespace Assets.Scripts
                 this.Health = (float)stream.ReceiveNext();
             }
         }
-        #endregion
-
-
-
     }
 
 }

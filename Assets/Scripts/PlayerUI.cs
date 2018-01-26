@@ -1,45 +1,30 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
- 
- 
 using System.Collections;
 using Assets.Scripts;
 
 
-namespace Com.MyCompany.MyGame
+namespace Assets.Scripts
 {
     public class PlayerUI : MonoBehaviour 
     {
- 
- 
-        #region Public Properties
- 
- 
+        [Tooltip("Height of the HP bar")]
+        public float HPBarHeight;
+
         [Tooltip("UI Text to display Player's Name")]
         public Text PlayerNameText;
- 
  
         [Tooltip("UI Slider to display Player's Health")]
         public Slider PlayerHealthSlider;
  
         [Tooltip("Pixel offset from the player target")]
         public Vector3 ScreenOffset = new Vector3(0f,30f,0f);
- 
-        #endregion
- 
- 
-        #region Private Properties
 
         private PlayerManager _target;
 
         float _characterControllerHeight = 0f;
-        [SerializeField] Transform _targetTransform;
+        Transform _targetTransform;
         Vector3 _targetPosition;
-
-        #endregion
-
-
-        #region MonoBehaviour Messages
 
         void Awake()
         {
@@ -62,11 +47,6 @@ namespace Com.MyCompany.MyGame
             }
         }
 
-        #endregion
-
-
-        #region Public Methods
-
         public void SetTarget(PlayerManager target)
         {
             if (target == null) 
@@ -76,10 +56,6 @@ namespace Com.MyCompany.MyGame
             }
             // Cache references for efficiency
             _target = target;
-            if (PlayerNameText != null) 
-            {
-                PlayerNameText.text = _target.photonView.owner.NickName;
-            }
 
             CharacterController _characterController = _target.GetComponent<CharacterController> ();
 
@@ -87,21 +63,22 @@ namespace Com.MyCompany.MyGame
             {
                 _characterControllerHeight = _characterController.height;
             }
+
+            if (PlayerNameText != null) 
+            {
+                PlayerNameText.text = _target.photonView.owner.NickName;
+            }
         }
 
         void LateUpdate() 
         {
 
-            if (_targetTransform != null)
+            if (_target.transform != null)
             {
-                _targetPosition = _targetTransform.position;
+                _targetPosition = _target.transform.position;
                 _targetPosition.y += _characterControllerHeight;
                 this.transform.position = Camera.main.WorldToScreenPoint (_targetPosition) + ScreenOffset;
             }
         }
-
-        #endregion
-
-
     }
 }

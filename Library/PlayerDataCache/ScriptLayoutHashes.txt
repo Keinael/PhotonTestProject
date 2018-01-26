@@ -1,10 +1,10 @@
 WindowsStandalone
 SceneListBegin?
-Assets/Resources/Scenes/Launcher.unity
-Assets/Resources/Scenes/Room for 1.unity
-Assets/Resources/Scenes/Room for 2.unity
-Assets/Resources/Scenes/Room for 3.unity
-Assets/Resources/Scenes/Room for 4.unity
+Assets/Scenes/Launcher.unity
+Assets/Scenes/Room for 1.unity
+Assets/Scenes/Room for 2.unity
+Assets/Scenes/Room for 3.unity
+Assets/Scenes/Room for 4.unity
 SceneListEnd?
 82c8c8940439d24517b71a242f62fbc3 Assembly-CSharp.dll:.HighlightOwnedGameObj
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PunTeams
@@ -22,6 +22,7 @@ ff05dcdf90651c3d98a9cad3df5e471e UnityEngine.Timeline.dll:UnityEngine.Timeline.C
 6af7378a45ad6da4992a71ef50ddc2eb UnityEngine.Timeline.dll:UnityEngine.Timeline.GroupTrack
 6af7378a45ad6da4992a71ef50ddc2eb UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 9ca6347af5ceb6b0d1c105af31b6722e UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
+813b2dbab27333af07164bcb4273ef84 Assembly-CSharp.dll:Assets.Scripts.PlayerUI
 9650139907be6d63bf3c3eaa8900f13f Assembly-CSharp.dll:.ThirdPersonController
 b027659a510ae8d01d6d5f31baf9827a Assembly-CSharp.dll:.PhotonStatsGui
 b646916c78b48f3208cda1a75aff4d8f Assembly-CSharp.dll:.ChatGui
@@ -306,7 +307,7 @@ e29eedec83444c5ff91ad08de30f1219 Assembly-CSharp.dll:.GUICustomAuth
 ec0082b40adf3b0930cd87250ffdbf1d Assembly-CSharp.dll:.SupportLogger
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PickupTriggerForward
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.OnPickedUpScript
-41c7e06997772591d1a0d214da336074 Assembly-CSharp.dll:Assets.Scripts.Launcher
+88500fcb3aa6217bdec690d3b46b953e Assembly-CSharp.dll:Assets.Scripts.Launcher
 1356b4a6096c35c829823b7e28399030 Assembly-CSharp.dll:.ShowStatusWhenConnecting
 298901e5fd6ccf8cd5b55cb6018e6abe Assembly-CSharp.dll:.PickupItemSimple
 08712033bfb8d4fd2842041f9a20ded7 Assembly-CSharp.dll:.ManualPhotonViewAllocator
@@ -397,4 +398,3 @@ d2a2bd333db22f480a8589e167314ecc Vuforia.UnityExtensions.dll:Vuforia.UserDefined
 05524b8f659e7bfe5756d1335fec24ba Vuforia.UnityExtensions.dll:Vuforia.WireframeTrackableEventHandler
 15bea26698002c6c4a3087131232ce5c Vuforia.UnityExtensions.dll:Vuforia.WordBehaviour
 54a26a95db9c623b6eb6fc01ae3ef891 Assembly-CSharp.dll:.CubeExtra
-3069bcb7aaad66191e296c7b4cac8c13 Assembly-CSharp.dll:Com.MyCompany.MyGame.PlayerUI

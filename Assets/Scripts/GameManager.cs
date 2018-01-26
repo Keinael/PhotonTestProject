@@ -7,18 +7,11 @@ namespace Assets.Scripts
 {
     public class GameManager : Photon.PunBehaviour 
     {
-
-        #region Public Properties
-
         public static GameManager Instance;
 
         [Tooltip("The prefab to use for representing the player")]
         public GameObject playerPrefab;
-
-        #endregion
-
-        #region Photon Messages
-
+        
         public override void OnPhotonPlayerConnected(PhotonPlayer other)
         {
             Debug.Log("OnPhotonPlayerConnected() " + other.NickName);
@@ -38,27 +31,16 @@ namespace Assets.Scripts
             LoadArena();
         }
 
-        /// <summary>
-        /// Called when the local player left the room. 
-        /// </summary>
         public override void OnLeftRoom()
         {
             SceneManager.LoadScene(0);
         }
-
-        #endregion
-
-        #region Public Methods
-
+        
         public void LeaveRoom()
         {
             PhotonNetwork.LeaveRoom();
         }
-
-        #endregion
-
-        #region Private Methods
-
+        
         void LoadArena()
         {
             if (!PhotonNetwork.isMasterClient)
@@ -68,9 +50,7 @@ namespace Assets.Scripts
             Debug.Log("PhotonNetwork : Loading Level : " + PhotonNetwork.room.PlayerCount);
             PhotonNetwork.LoadLevel("Room for" + PhotonNetwork.room.PlayerCount);
         }
-
-        #endregion
-
+        
         void Start()
         {
             Instance = this;
